@@ -68,16 +68,18 @@ def tobs():
     return jsonify(querydict)
 
 @app.route("/api/v1.0/<start>")
-def datetoend():
+def datetoend(start):
     
-
-    return jsonify()
+        
+    return jsonify(session.query(func.min(Measurement.tobs), func.avg(Measurement.tobs), func.max(Measurement.tobs)).\
+        filter(Measurement.date >= start).all())
 
 @app.route("/api/v1.0/<start>/<end>")
-def datetodate():
+def datetodate(start, end):
     
 
-    return jsonify()
+    return jsonify(session.query(func.min(Measurement.tobs), func.avg(Measurement.tobs), func.max(Measurement.tobs)).\
+        filter(Measurement.date >= start).filter(Measurement.date <= end).all())
 
 
 @app.route("/")
@@ -89,7 +91,7 @@ def welcome():
         f"/api/v1.0/stations<br>"
         f"/api/v1.0/tobs<br>"
         f"/api/v1.0/start_date<br>"
-        f"/api/v1.0/start_date/<end_date<br>"
+        f"/api/v1.0/start_date/end_date<br>"
 
     )
 
